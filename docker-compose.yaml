@@ -1,0 +1,28 @@
+networks:
+  gitea:
+    external: false
+services:
+  server:
+    image: gitea/gitea:latest
+    container_name: gitea
+    logging:
+     options:
+      max-size: 10m
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=mysql
+      - GITEA__database__HOST="YOUR SERVER MYSQL":3306
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWD="YOUR PASSWORD"
+    restart: always
+    networks:
+      - gitea
+    volumes:
+      - /app/gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 3003:3000
+      - 2522:22
